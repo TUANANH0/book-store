@@ -70,7 +70,7 @@ public class BookDAO {
         }
         return result;
     }
-    
+
     public List<BookDTO> getListBook(String search) throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -107,5 +107,99 @@ public class BookDAO {
             }
         }
         return list;
+    }
+
+    public boolean insertBook(BookDTO book) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtil.getConnetion();
+            if (conn != null) {
+                String sql = "INSERT INTO tblBooks(BookID, BookName, Quantity, CategoryID)"
+                        + " VALUES(?,?,?,?)";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, book.getBookID());
+                stm.setString(2, book.getBookName());
+                stm.setInt(3, book.getQuantity());
+                stm.setInt(4, book.getCategoryID());
+                check = stm.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean ckeckBookID(String bookID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtil.getConnetion();
+            if (conn != null) {
+                String sql = "SELECT BookID"
+                        + " FROM tblBooks"
+                        + " WHERE BookID = ?";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, bookID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean checkCategoryID(int categoryID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtil.getConnetion();
+            if (conn != null) {
+                String sql = "SELECT CategoryID"
+                        + " FROM tblCategory"
+                        + " WHERE CategoryID = ?";
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, categoryID);
+                rs = stm.executeQuery();
+                if(rs.next()){
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

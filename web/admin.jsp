@@ -93,5 +93,6 @@
         }
     %>
     <%= errorMessage %>
+    <a href="insert.jsp">Insert Book</a>
 </body>
 </html>

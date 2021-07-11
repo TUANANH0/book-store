@@ -12,6 +12,14 @@
         <title>Insert Book</title>
     </head>
     <body>
-        Book ID<input type="text" name="bookID" 
+        <form action="MainController">
+            Book ID<input type="text" name="bookID" required=""/></br>
+            Book Name<input type="text" name="bookName" required=""/></br>
+            Quantity<input type="text" name="quantity" required=""/></br>
+            Category ID<input type="text" name="categoryID" required=""/></br>         
+            <input type="submit" name="action" value="Insert"/>
+            <input type="reset" value="Reset"/>
+        </form>
+        <a href="admin.jsp">Back Page</a>
     </body>
 </html>

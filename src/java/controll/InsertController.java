@@ -5,27 +5,22 @@
  */
 package controll;
 
+import dao.BookDAO;
+import dto.BookDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Tuan
  */
-public class MainController extends HttpServlet {
-
-    private static final String ERROR = "error.jsp";
-    private static final String LOGIN_CONTROLLER = "LoginController";
-    private static final String LOGOUT_CONTROLLER = "LogoutController";
-    private static final String SEARCH_CONTROLLER = "SearchController";
-    private static final String DELETE_CONTROLLER = "DeleteController";
-    private static final String UPDATE_CONTROLLER = "UpdateController";
-    private static final String INSERT_CONTROLLER = "InsertController";
+public class InsertController extends HttpServlet {
+private final String ERRER = "insert.jsp";
+private final String SUCCESS = "insert.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,26 +34,34 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+        String url = ERRER;
         try {
-            HttpSession session = request.getSession();
-            String action = request.getParameter("action");
-            if ("Login".equals(action)) {
-                url = LOGIN_CONTROLLER;
-            } else if ("Logout".equals(action)) {
-                url = LOGOUT_CONTROLLER;
-            } else if ("Search".equals(action)) {
-                url = SEARCH_CONTROLLER;
-            } else if ("Delete".equals(action)) {
-                url = DELETE_CONTROLLER;
-            } else if ("Update".equals(action)) {
-                url = UPDATE_CONTROLLER;
-            } else if ("Insert".equals(action)) {
-                url = INSERT_CONTROLLER;
+            String bookID = request.getParameter("bookID");
+            String bookName = request.getParameter("bookName");
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+            BookDAO dao = new BookDAO();
+            BookDTO book = new BookDTO(bookID, bookName, quantity, categoryID, "");
+            boolean checkUserID = dao.ckeckBookID(bookID);
+            if(checkUserID){
+                request.setAttribute("BOOKID_ERROR", "Duplicate BookID" + bookID + "!");
+            } else{
+                boolean checkCategoryID = dao.checkCategoryID(categoryID);
+                if(checkCategoryID){
+                    boolean checkInsert = dao.insertBook(book);
+                    if(checkInsert){
+                        url = SUCCESS;
+                        request.setAttribute("BOOK_SUCCESS", "Insert success");
+                    }else{
+                        request.setAttribute("INSERT_ERROR", "Can not insert");
+                    }
+                }else{
+                    request.setAttribute("CATEGORY_ERROR", "CategoryID does not exist");
+                }
             }
         } catch (Exception e) {
-            log("Error at MainController " + e.toString());
-        } finally {
+            log("Error at InsertController " + e.toString());
+        }finally{
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
