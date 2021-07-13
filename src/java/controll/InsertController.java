@@ -7,6 +7,7 @@ package controll;
 
 import dao.BookDAO;
 import dto.BookDTO;
+import dto.BookErrorDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,8 +20,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Tuan
  */
 public class InsertController extends HttpServlet {
-private final String ERRER = "insert.jsp";
-private final String SUCCESS = "insert.jsp";
+
+    private final String ERRER = "insert.jsp";
+    private final String SUCCESS = "insert.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,26 +44,31 @@ private final String SUCCESS = "insert.jsp";
             int categoryID = Integer.parseInt(request.getParameter("categoryID"));
             BookDAO dao = new BookDAO();
             BookDTO book = new BookDTO(bookID, bookName, quantity, categoryID, "");
+            BookErrorDTO bookError = new BookErrorDTO();
             boolean checkUserID = dao.ckeckBookID(bookID);
-            if(checkUserID){
-                request.setAttribute("BOOKID_ERROR", "Duplicate BookID" + bookID + "!");
-            } else{
+            if (checkUserID) {
+                bookError.setBookIDError("Duplicate BookID" + bookID + "!");
+                request.setAttribute("INSERT_ERROR", bookError);
+            } else {
                 boolean checkCategoryID = dao.checkCategoryID(categoryID);
-                if(checkCategoryID){
+                if (checkCategoryID) {
                     boolean checkInsert = dao.insertBook(book);
-                    if(checkInsert){
+                    if (checkInsert) {
                         url = SUCCESS;
-                        request.setAttribute("BOOK_SUCCESS", "Insert success");
-                    }else{
-                        request.setAttribute("INSERT_ERROR", "Can not insert");
+                        bookError.setMessageError("Insert success");
+                    } else {
+                        bookError.setMessageError("Can not insert");
                     }
-                }else{
-                    request.setAttribute("CATEGORY_ERROR", "CategoryID does not exist");
+                    request.setAttribute("INSERT_ERROR", bookError);
+                } else {
+                    bookError.setCategoryIDError("CategoryID does not exist");
+                    bookError.setMessageError("Can not insert");
+                    request.setAttribute("INSERT_ERROR", bookError);
                 }
             }
         } catch (Exception e) {
             log("Error at InsertController " + e.toString());
-        }finally{
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

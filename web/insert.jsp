@@ -4,6 +4,7 @@
     Author     : Tuan
 --%>
 
+<%@page import="dto.BookErrorDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,13 +13,24 @@
         <title>Insert Book</title>
     </head>
     <body>
+        <%
+            BookErrorDTO bookError = (BookErrorDTO) request.getAttribute("INSERT_ERROR");
+            if(bookError == null){
+                bookError = new BookErrorDTO();
+            }
+        %>
         <form action="MainController">
             Book ID<input type="text" name="bookID" required=""/></br>
+            <%= bookError.getBookIDError() %></br>
             Book Name<input type="text" name="bookName" required=""/></br>
+            </br>
             Quantity<input type="text" name="quantity" required=""/></br>
-            Category ID<input type="text" name="categoryID" required=""/></br>         
+            </br>
+            Category ID<input type="text" name="categoryID" required=""/></br>
+            <%= bookError.getCategoryIDError() %></br>
             <input type="submit" name="action" value="Insert"/>
             <input type="reset" value="Reset"/>
+            <%= bookError.getMessageError()%>
         </form>
         <a href="admin.jsp">Back Page</a>
     </body>
