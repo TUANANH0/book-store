@@ -28,6 +28,22 @@
         <servlet-name>InsertController</servlet-name>
         <servlet-class>controll.InsertController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BorrowController</servlet-name>
+        <servlet-class>controll.BorrowController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCartController</servlet-name>
+        <servlet-class>controll.ViewCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifyController</servlet-name>
+        <servlet-class>controll.ModifyController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GiveBackController</servlet-name>
+        <servlet-class>controll.GiveBackController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -55,6 +71,22 @@
     <servlet-mapping>
         <servlet-name>InsertController</servlet-name>
         <url-pattern>/InsertController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BorrowController</servlet-name>
+        <url-pattern>/BorrowController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCartController</servlet-name>
+        <url-pattern>/ViewCartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifyController</servlet-name>
+        <url-pattern>/ModifyController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GiveBackController</servlet-name>
+        <url-pattern>/GiveBackController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

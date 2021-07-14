@@ -20,18 +20,15 @@
             }
         %>
         <form action="MainController">
-            Book ID<input type="text" name="bookID" required=""/></br>
-            <%= bookError.getBookIDError() %></br>
+            Book ID<input type="text" name="bookID" required=""/><%= bookError.getBookIDError() %></br>
             Book Name<input type="text" name="bookName" required=""/></br>
-            </br>
             Quantity<input type="text" name="quantity" required=""/></br>
-            </br>
-            Category ID<input type="text" name="categoryID" required=""/></br>
-            <%= bookError.getCategoryIDError() %></br>
+            Category ID<input type="text" name="categoryID" required=""/><%= bookError.getCategoryIDError() %></br>
+            Price<input type="text" name="price" required=""/>
             <input type="submit" name="action" value="Insert"/>
             <input type="reset" value="Reset"/>
             <%= bookError.getMessageError()%>
         </form>
-        <a href="admin.jsp">Back Page</a>
+        <a href="admin.jsp">Back Admin Page</a>
     </body>
 </html>

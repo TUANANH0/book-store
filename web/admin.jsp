@@ -49,6 +49,7 @@
                     <th>Book Name</th>
                     <th>Quantity</th>
                     <th>Category ID</th>
+                    <th>Price</th>
                     <th>Delete</th>
                     <th>Update</th>
                 </tr>
@@ -72,6 +73,9 @@
                     </td>
                     <td>
                         <input type="text" name="categoryID" value="<%= dto.getCategoryID()%>"/>
+                    </td>
+                    <td>
+                        <input type="text" name="price" value="<%= dto.getPrice()%>"/>
                     </td>
                     <td>
                         <a href="MainController?action=Delete&bookID=<%= dto.getBookID()%>&search=<%= search%>">Delete</a>

@@ -16,16 +16,18 @@ public class BookDTO {
     private int quantity;
     private int categoryID;
     private String categoryName;
+    private int price;
 
     public BookDTO() {
     }
 
-    public BookDTO(String bookID, String bookName, int quantity, int categoryID, String categoryName) {
+    public BookDTO(String bookID, String bookName, int quantity, int categoryID, String categoryName, int price) {
         this.bookID = bookID;
         this.bookName = bookName;
         this.quantity = quantity;
         this.categoryID = categoryID;
         this.categoryName = categoryName;
+        this.price = price;
     }
 
     public String getBookID() {
@@ -68,4 +70,11 @@ public class BookDTO {
         return categoryName;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 }

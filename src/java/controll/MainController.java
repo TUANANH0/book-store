@@ -26,6 +26,10 @@ public class MainController extends HttpServlet {
     private static final String DELETE_CONTROLLER = "DeleteController";
     private static final String UPDATE_CONTROLLER = "UpdateController";
     private static final String INSERT_CONTROLLER = "InsertController";
+    private static final String BORROW_CONTROLLER = "BorrowController";
+    private static final String View_CART_CONTROLLER = "ViewCartController";
+    private static final String MODIFY_CONTROLLER = "ModifyController";
+    private static final String GIVE_BACK_CONTROLLER = "GiveBackController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,6 +59,14 @@ public class MainController extends HttpServlet {
                 url = UPDATE_CONTROLLER;
             } else if ("Insert".equals(action)) {
                 url = INSERT_CONTROLLER;
+            } else if ("Borrow".equals(action)) {
+                url = BORROW_CONTROLLER;
+            } else if ("ViewCart".equals(action)) {
+                url = View_CART_CONTROLLER;
+            } else if ("Modify".equals(action)) {
+                url = MODIFY_CONTROLLER;
+            }else if ("GiveBack".equals(action)) {
+                url = GIVE_BACK_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController " + e.toString());

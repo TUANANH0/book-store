@@ -19,6 +19,10 @@
             UsersDTO user = (UsersDTO) session.getAttribute("LOGIN_USER");
             List<BookDTO> list = (List<BookDTO>) request.getAttribute("LIST_BOOK");
             String search = request.getParameter("search");
+            String orderMessage = (String) request.getAttribute("ORDER_MESSAGE");
+            if (orderMessage == null) {
+                orderMessage = "";
+            }
             if (search == null) {
                 search = "";
             }
@@ -28,7 +32,8 @@
             }
         %>
         <h1>Welcome <%= user.getFullName()%>(<%= user.getRoleID()%>).</h1>
-        <a href="MainController?action=Logout">Logout</a>
+        <a href="MainController?action=Logout">Logout</a></br>
+        <a href="MainController?action=ViewCart&userID=<%= user.getUserID()%>&search=<%= search%>">View Cart</a>
         <form action="MainController">
             Search <input type="text" name="search" value="<%= search%>"/>
             <input type="submit" name="action" value="Search"/>
@@ -45,6 +50,8 @@
                     <th>Book Name</th>
                     <th>Quantity</th>
                     <th>Category Name</th>
+                    <th>Price</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -52,22 +59,36 @@
                     int count = 1;
                     for (BookDTO dto : list) {
                 %>
+            <form action="MainController" method="POST">          
                 <tr>
                     <td><%= count++%></td>
                     <td><%= dto.getBookID()%></td>
                     <td><%= dto.getBookName()%></td>
                     <td><%= dto.getQuantity()%></td>
                     <td><%= dto.getCategoryName()%></td>
+                    <td><%= dto.getPrice()%></td>
+                    <td>
+                        <input type="submit" name="action" value="Borrow"/>
+                        <input type="hidden" name="orderID" value="<%= user.getUserID() + dto.getBookID()%>"/>
+                        <input type="hidden" name="bookID" value="<%= dto.getBookID()%>"/>
+                        <input type="hidden" name="bookName" value="<%= dto.getBookName()%>"/>
+                        <input type="hidden" name="quantity" value="<%= dto.getQuantity()%>"/>
+                        <input type="hidden" name="categoryName" value="<%= dto.getCategoryName()%>"/>
+                        <input type="hidden" name="price" value="<%= dto.getPrice()%>"/>
+                        <input type="hidden" name="userID" value="<%= user.getUserID()%>"/>
+                        <input type="hidden" name="search" value="<%= search%>"/>
+                    </td>
                 </tr>
-                <%
-                    }
-                %>
-            </tbody>
-        </table>
-        <%
+            </form>
+            <%
                 }
+            %>
+        </tbody>
+    </table>
+    <%
             }
-        %>
-
-    </body>
+        }
+    %>
+    <%= orderMessage%>
+</body>
 </html>

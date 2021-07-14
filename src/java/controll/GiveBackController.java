@@ -6,7 +6,6 @@
 package controll;
 
 import dao.BookDAO;
-import dto.BookDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -18,10 +17,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Tuan
  */
-public class UpdateController extends HttpServlet {
+public class GiveBackController extends HttpServlet {
 
-    private static final String ERROR = "SearchController";
-    private static final String SUCCESS = "SearchController";
+    private final String ERROR = "ViewCartController";
+    private final String SUCCESS = "ViewCartController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,23 +34,19 @@ public class UpdateController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       String url = ERROR;
+        String url = ERROR;
         try {
-            String bookID = request.getParameter("bookID");
-            String bookName = request.getParameter("bookName");
-            int quantity =  Integer.parseInt(request.getParameter("quantity"));
-            int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-            String categoryName = request.getParameter("CategoryName");
-            int price = Integer.parseInt("price");
+            String orderID = request.getParameter("orderID");
             BookDAO dao = new BookDAO();
-            BookDTO dto = new BookDTO(bookID, bookName, quantity, categoryID, categoryName, price);
-            boolean result = dao.updateBook(dto);
-            if(result){
+            boolean check = dao.giveBackBook(orderID);
+            if(check){
                 url = SUCCESS;
+                request.setAttribute("GIVEBACK_MESSAGE", "You have returned the book on time.");
             }else{
-                request.setAttribute("ERROR_MESSAGE", "Update Error");
+                request.setAttribute("GIVEBACK_MESSAGE", "You failed to return the book.");
             }
         } catch (Exception e) {
+            log("Error at GiveBackController " + e.toString());
         }finally{
             request.getRequestDispatcher(url).forward(request, response);
         }

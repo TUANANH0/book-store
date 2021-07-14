@@ -42,12 +42,14 @@ public class InsertController extends HttpServlet {
             String bookName = request.getParameter("bookName");
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+            int price = Integer.parseInt(request.getParameter("price"));
             BookDAO dao = new BookDAO();
-            BookDTO book = new BookDTO(bookID, bookName, quantity, categoryID, "");
+            BookDTO book = new BookDTO(bookID, bookName, quantity, categoryID, "", price);
             BookErrorDTO bookError = new BookErrorDTO();
             boolean checkUserID = dao.ckeckBookID(bookID);
             if (checkUserID) {
                 bookError.setBookIDError("Duplicate BookID" + bookID + "!");
+                bookError.setMessageError("Can not insert");
                 request.setAttribute("INSERT_ERROR", bookError);
             } else {
                 boolean checkCategoryID = dao.checkCategoryID(categoryID);

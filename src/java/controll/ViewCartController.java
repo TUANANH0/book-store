@@ -6,22 +6,23 @@
 package controll;
 
 import dao.BookDAO;
-import dto.BookDTO;
+import dto.CartDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Tuan
  */
-public class UpdateController extends HttpServlet {
-
-    private static final String ERROR = "SearchController";
-    private static final String SUCCESS = "SearchController";
+public class ViewCartController extends HttpServlet {
+private final String ERROR = "SearchController";
+private final String SUCCESS = "viewCart.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,23 +36,18 @@ public class UpdateController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       String url = ERROR;
+        String url = ERROR;
         try {
-            String bookID = request.getParameter("bookID");
-            String bookName = request.getParameter("bookName");
-            int quantity =  Integer.parseInt(request.getParameter("quantity"));
-            int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-            String categoryName = request.getParameter("CategoryName");
-            int price = Integer.parseInt("price");
+            String userID = request.getParameter("userID");
             BookDAO dao = new BookDAO();
-            BookDTO dto = new BookDTO(bookID, bookName, quantity, categoryID, categoryName, price);
-            boolean result = dao.updateBook(dto);
-            if(result){
+            List<CartDTO> list = dao.getListCart(userID);
+            HttpSession session = request.getSession();
+            if(list != null){
+                session.setAttribute("LIST_CART", list);
                 url = SUCCESS;
-            }else{
-                request.setAttribute("ERROR_MESSAGE", "Update Error");
             }
         } catch (Exception e) {
+            log("Error at ViewCartController " + e.toString());
         }finally{
             request.getRequestDispatcher(url).forward(request, response);
         }
