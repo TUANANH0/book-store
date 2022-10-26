@@ -41,10 +41,10 @@ public class UpdateController extends HttpServlet {
             String bookName = request.getParameter("bookName");
             int quantity =  Integer.parseInt(request.getParameter("quantity"));
             int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-            String categoryName = request.getParameter("CategoryName");
-            int price = Integer.parseInt("price");
+            //String categoryName = request.getParameter("CategoryName");
+            int price = Integer.parseInt(request.getParameter("price"));
             BookDAO dao = new BookDAO();
-            BookDTO dto = new BookDTO(bookID, bookName, quantity, categoryID, categoryName, price);
+            BookDTO dto = new BookDTO(bookID, bookName, quantity, categoryID, "", price);
             boolean result = dao.updateBook(dto);
             if(result){
                 url = SUCCESS;

@@ -52,15 +52,14 @@ public class BookDAO {
         try {
             conn = DBUtil.getConnetion();
             String sql = "UPDATE tblBooks"
-                    + " SET BookID=?, BookName=?, Quantity=?, CategoryID=?, Price = ?"
+                    + " SET BookName=?, Quantity=?, CategoryID=?, Price =?"
                     + " WHERE BookID=?";
             stm = conn.prepareStatement(sql);
-            stm.setString(1, book.getBookID());
-            stm.setString(2, book.getBookName());
-            stm.setInt(3, book.getQuantity());
-            stm.setInt(4, book.getCategoryID());
+            stm.setString(1, book.getBookName());
+            stm.setInt(2, book.getQuantity());
+            stm.setInt(3, book.getCategoryID());
+            stm.setInt(4, book.getPrice());
             stm.setString(5, book.getBookID());
-            stm.setInt(6, book.getPrice());
             result = stm.executeUpdate() > 0;
         } catch (Exception e) {
         } finally {

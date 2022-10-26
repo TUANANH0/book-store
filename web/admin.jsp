@@ -23,7 +23,7 @@
             if (search == null) {
                 search = "";
             }
-            if(errorMessage == null){
+            if (errorMessage == null) {
                 errorMessage = "";
             }
             if (user == null || !"AD".equals(user.getRoleID())) {
@@ -96,7 +96,7 @@
             }
         }
     %>
-    <%= errorMessage %>
+    <%= errorMessage%>
     <a href="insert.jsp">Insert Book</a>
 </body>
 </html>
